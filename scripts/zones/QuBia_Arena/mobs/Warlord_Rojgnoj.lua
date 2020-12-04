@@ -19,13 +19,13 @@ function phaseChangeReady(battlefield)
 end
 
 function onMobInitialize(mob)
-    mob:addMod(tpz.mod.SLEEPRES,50)
+    mob:addMod(tpz.mod.SLEEPRES, 50)
 end
 
 function onMobSpawn(mob)
     local battlefield = mob:getBattlefield()
     if battlefield and phaseChangeReady(battlefield) then
-       battlefield:setLocalVar("phaseChange", 0)
+        battlefield:setLocalVar("phaseChange", 0)
     end
 end
 

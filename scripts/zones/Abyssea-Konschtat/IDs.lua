@@ -16,6 +16,9 @@ zones[tpz.zone.ABYSSEA_KONSCHTAT] =
         GIL_OBTAINED            = 6389, -- Obtained <number> gil.
         KEYITEM_OBTAINED        = 6391, -- Obtained key item: <keyitem>.
         CRUOR_TOTAL             = 6986, -- Obtained <number> cruor. (Total: <number>)
+        CARRIED_OVER_POINTS     = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER            = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         STAGGERED               = 7316, -- <name>'s attack staggers the fiend!
         YELLOW_STAGGER          = 7317, -- The fiend is unable to cast magic.
         BLUE_STAGGER            = 7318, -- The fiend is unable to use special attacks.
@@ -48,6 +51,8 @@ zones[tpz.zone.ABYSSEA_KONSCHTAT] =
     {
         QM_POPS =
         {
+            -- TODO: the first item, e.g. 'qm1', is unused and will be meaningless once I (Wren) finish entity-QC on all Abyssea zones.
+            -- When that is done, I will rewrite Abyssea global and adjust and neaten this table
             --  [16839078] = { 'qm1', {2914},                                                                                                                                           {}, 16838718}, -- Ashtaerth The Gallvexed
             --  [16839079] = { 'qm2', {2911},                                                                                                                                           {}, 16838767}, -- Sarcophilus
             --  [16839080] = { 'qm3', {2909},                                                                                                                                           {}, 16838782}, -- Bombadeel
@@ -60,14 +65,14 @@ zones[tpz.zone.ABYSSEA_KONSCHTAT] =
             --  [16839087] = {'qm10', {2912},                                                                                                                                           {}, 16838979}, -- Alkonost
             --  [16839088] = {'qm11', {2913},                                                                                                                                           {}, 16838993}, -- Arimaspi
             --  [16839089] = {'qm12', {2905},                                                                                                                                           {}, 16839033}, -- Fear Gorta
-            --  [16839090] = {'qm13',     {}, {tpz.ki.FRAGRANT_TREANT_PETAL,tpz.ki.FETID_RAFFLESIA_STALK,tpz.ki.DECAYING_MORBOL_TOOTH,tpz.ki.TURBID_SLIME_OIL,tpz.ki.VENOMOUS_PEISTE_CLAW}, 16839007}, -- Eccentric Eve
-            --  [16839091] = {'qm14',     {},                                                     {tpz.ki.TATTERED_HIPPOGRYPH_WING,tpz.ki.CRACKED_WIVRE_HORN,tpz.ki.MUCID_AHRIMAN_EYEBALL}, 16838872}, -- Kukulkan
+            --  [16839090] = {'qm13',     {}, {tpz.ki.FRAGRANT_TREANT_PETAL, tpz.ki.FETID_RAFFLESIA_STALK, tpz.ki.DECAYING_MORBOL_TOOTH, tpz.ki.TURBID_SLIME_OIL, tpz.ki.VENOMOUS_PEISTE_CLAW}, 16839007}, -- Eccentric Eve
+            --  [16839091] = {'qm14',     {},                                                     {tpz.ki.TATTERED_HIPPOGRYPH_WING, tpz.ki.CRACKED_WIVRE_HORN, tpz.ki.MUCID_AHRIMAN_EYEBALL}, 16838872}, -- Kukulkan
             --  [16839092] = {'qm15',     {},                                                                                                              {tpz.ki.TWISTED_TONBERRY_CROWN}, 16839068}, -- Bloodeye Vileberry
-            --  [16839093] = {'qm16',     {}, {tpz.ki.FRAGRANT_TREANT_PETAL,tpz.ki.FETID_RAFFLESIA_STALK,tpz.ki.DECAYING_MORBOL_TOOTH,tpz.ki.TURBID_SLIME_OIL,tpz.ki.VENOMOUS_PEISTE_CLAW}, 16839069}, -- Eccentric Eve
-            --  [16839094] = {'qm17',     {},                                                     {tpz.ki.TATTERED_HIPPOGRYPH_WING,tpz.ki.CRACKED_WIVRE_HORN,tpz.ki.MUCID_AHRIMAN_EYEBALL}, 16839070}, -- Kukulkan
+            --  [16839093] = {'qm16',     {}, {tpz.ki.FRAGRANT_TREANT_PETAL, tpz.ki.FETID_RAFFLESIA_STALK, tpz.ki.DECAYING_MORBOL_TOOTH, tpz.ki.TURBID_SLIME_OIL, tpz.ki.VENOMOUS_PEISTE_CLAW}, 16839069}, -- Eccentric Eve
+            --  [16839094] = {'qm17',     {},                                                     {tpz.ki.TATTERED_HIPPOGRYPH_WING, tpz.ki.CRACKED_WIVRE_HORN, tpz.ki.MUCID_AHRIMAN_EYEBALL}, 16839070}, -- Kukulkan
             --  [16839095] = {'qm18',     {},                                                                                                              {tpz.ki.TWISTED_TONBERRY_CROWN}, 16839071}, -- Bloodeye Vileberry
-            --  [16839096] = {'qm19',     {}, {tpz.ki.FRAGRANT_TREANT_PETAL,tpz.ki.FETID_RAFFLESIA_STALK,tpz.ki.DECAYING_MORBOL_TOOTH,tpz.ki.TURBID_SLIME_OIL,tpz.ki.VENOMOUS_PEISTE_CLAW}, 16839072}, -- Eccentric Eve
-            --  [16839097] = {'qm20',     {},                                                     {tpz.ki.TATTERED_HIPPOGRYPH_WING,tpz.ki.CRACKED_WIVRE_HORN,tpz.ki.MUCID_AHRIMAN_EYEBALL}, 16839073}, -- Kukulkan
+            --  [16839096] = {'qm19',     {}, {tpz.ki.FRAGRANT_TREANT_PETAL, tpz.ki.FETID_RAFFLESIA_STALK, tpz.ki.DECAYING_MORBOL_TOOTH, tpz.ki.TURBID_SLIME_OIL, tpz.ki.VENOMOUS_PEISTE_CLAW}, 16839072}, -- Eccentric Eve
+            --  [16839097] = {'qm20',     {},                                                     {tpz.ki.TATTERED_HIPPOGRYPH_WING, tpz.ki.CRACKED_WIVRE_HORN, tpz.ki.MUCID_AHRIMAN_EYEBALL}, 16839073}, -- Kukulkan
             --  [16839098] = {'qm21',     {},                                                                                                              {tpz.ki.TWISTED_TONBERRY_CROWN}, 16839074}, -- Bloodeye Vileberry
         },
     },

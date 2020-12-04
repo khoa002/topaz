@@ -18,6 +18,9 @@ zones[tpz.zone.MIDDLE_DELKFUTTS_TOWER] =
         NOTHING_OUT_OF_ORDINARY  = 6565, -- There is nothing out of the ordinary here.
         SENSE_OF_FOREBODING      = 6566, -- You are suddenly overcome with a sense of foreboding...
         FELLOW_MESSAGE_OFFSET    = 6580, -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS      = 7162, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY  = 7163, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER             = 7164, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         FISHING_MESSAGE_OFFSET   = 7212, -- You can't fish here.
         CHEST_UNLOCKED           = 7320, -- You unlock the chest!
         PLAYER_OBTAINS_ITEM      = 7368, -- <name> obtains <item>!
@@ -39,7 +42,7 @@ zones[tpz.zone.MIDDLE_DELKFUTTS_TOWER] =
             [17420378] = 17420382, -- -59.370 -64.105 17.313
             [17420381] = 17420382, -- -48.936 -64.114 8.575
             [17420383] = 17420382, -- -42.392 -63.535 -0.946
-            [17420384] = 17420382, -- -31,-63.713 -3
+            [17420384] = 17420382, -- -31, -63.713 -3
         },
         RHOITOS_PH               =
         {

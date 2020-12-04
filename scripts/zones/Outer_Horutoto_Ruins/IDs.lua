@@ -20,6 +20,9 @@ zones[tpz.zone.OUTER_HORUTOTO_RUINS] =
         GIL_OBTAINED             = 6594,  -- Obtained <number> gil.
         KEYITEM_OBTAINED         = 6596,  -- Obtained key item: <keyitem>.
         FELLOW_MESSAGE_OFFSET    = 6622,  -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS      = 7204, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY  = 7205, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER             = 7206, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         GEOMAGNETRON_ATTUNED     = 7215,  -- Your <keyitem> has been attuned to a geomagnetic fount in the corresponding locale.
         DOOR_FIRMLY_SHUT         = 7254,  -- The door is firmly shut.
         ALL_G_ORBS_ENERGIZED     = 7257,  -- The six Mana Orbs have been successfully energized with magic!
@@ -39,14 +42,14 @@ zones[tpz.zone.OUTER_HORUTOTO_RUINS] =
         },
         AH_PUCH_PH                  =
         {
-            [17571893] = 17571903, -- -418,-1,629
-            [17571894] = 17571903, -- -419,-1,570
-            [17571895] = 17571903, -- -419,-1,581
-            [17571896] = 17571903, -- -418,-1,590
-            [17571897] = 17571903, -- -418,-1,597
-            [17571898] = 17571903, -- -417,-1,640
-            [17571899] = 17571903, -- -419,-1,615
-            [17571900] = 17571903, -- -417,-1,661
+            [17571893] = 17571903, -- -418, -1, 629
+            [17571894] = 17571903, -- -419, -1, 570
+            [17571895] = 17571903, -- -419, -1, 581
+            [17571896] = 17571903, -- -418, -1, 590
+            [17571897] = 17571903, -- -418, -1, 597
+            [17571898] = 17571903, -- -417, -1, 640
+            [17571899] = 17571903, -- -419, -1, 615
+            [17571900] = 17571903, -- -417, -1, 661
         },
         BALLOON_NM_OFFSET           = 17572141,
         FULL_MOON_FOUNTAIN_OFFSET   = 17572197,

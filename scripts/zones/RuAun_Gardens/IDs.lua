@@ -17,6 +17,9 @@ zones[tpz.zone.RUAUN_GARDENS] =
         KEYITEM_OBTAINED           = 6391,  -- Obtained key item: <keyitem>.
         ITEMS_OBTAINED             = 6397,  -- You obtain <number> <item>!
         NOTHING_OUT_OF_ORDINARY    = 6402,  -- There is nothing out of the ordinary here.
+        CARRIED_OVER_POINTS        = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY    = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER               = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         FISHING_MESSAGE_OFFSET     = 7049,  -- You can't fish here.
         CONQUEST_BASE              = 7149,  -- Tallying conquest results...
         IT_IS_ALREADY_FUNCTIONING  = 7309,  -- It is already functioning.
@@ -80,15 +83,15 @@ zones[tpz.zone.RUAUN_GARDENS] =
             { coords = {  -3, -54, -583,    1, -50, -579}, event = 0       },
             { coords = { 147, -26, -449,  151, -22, -445}, event = 1       },
             { coords = { 186, -43, -405,  190, -39, -401}, event = 2       },
-            { coords = { 272, -42, -379,  276, -38, -375}, event = {4,5}   },
+            { coords = { 272, -42, -379,  276, -38, -375}, event = {4, 5}   },
             { coords = { 306, -39, -317,  310, -35, -313}, event = 6       },
             { coords = { 393, -39,  193,  397, -35,  197}, event = 9       },
             { coords = {  62, -39,  434,   66, -35,  438}, event = 16      },
-            { coords = {  -2, -42,  464,    2, -38,  468}, event = {18,19} },
+            { coords = {  -2, -42,  464,    2, -38,  468}, event = {18, 19} },
             { coords = { -65, -39,  434,  -61, -35,  438}, event = 20      },
             { coords = {-397, -39,  193, -393, -35,  197}, event = 23      },
-            { coords = {-445, -42,  142, -441, -38,  146}, event = {25,26} },
-            { coords = {-276, -42, -379, -272, -38, -375}, event = {32,33} },
+            { coords = {-445, -42,  142, -441, -38,  146}, event = {25, 26} },
+            { coords = {-276, -42, -379, -272, -38, -375}, event = {32, 33} },
             { coords = {-191, -43, -405, -187, -39, -401}, event = 34      },
             { coords = {-151, -26, -449, -147, -22, -445}, event = 36      },
             { coords = { 543, -73,  -19,  547, -69,  -15}, event = 37      },
@@ -97,7 +100,7 @@ zones[tpz.zone.RUAUN_GARDENS] =
             { coords = {-453, -73, -308, -449, -69, -304}, event = 40      },
             { coords = {-436, -39,   71, -432, -35,   75}, event = 27      },
             { coords = {-310, -39, -317, -306, -35, -313}, event = 30      },
-            { coords = { 441, -42,  142,  445, -38,  146}, event = {11,12} },
+            { coords = { 441, -42,  142,  445, -38,  146}, event = {11, 12} },
             { coords = { 432, -39,   71,  436, -35,   75}, event = 9       },
             { coords = { 162.5, -31, -353.5,  168.5, -30, -347.5}, event = 3,  portal = 17310054 },
             { coords = { 374.5, -25,   61.5,  380.5, -24,   67.5}, event = 10, portal = 17310057 },
