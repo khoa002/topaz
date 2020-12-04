@@ -14,6 +14,9 @@ zones[tpz.zone.QUBIA_ARENA] =
         ITEM_OBTAINED                = 6388, -- Obtained: <item>.
         GIL_OBTAINED                 = 6389, -- Obtained <number> gil.
         KEYITEM_OBTAINED             = 6391, -- Obtained key item: <keyitem>.
+        CARRIED_OVER_POINTS          = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY      = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER                 = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE                = 7049, -- Tallying conquest results...
         FLAT_PREPARE                 = 7622, -- I am Trion, of San d'Oria!
         FLAT_LAND                    = 7623, -- Feel the fire of my forefathers!
@@ -28,10 +31,23 @@ zones[tpz.zone.QUBIA_ARENA] =
         TAKE_THAT_YOU_WHIPPERSNAPPER = 7632, -- Take that, you whippersnapper!
         NOW_THAT_IM_WARMED_UP        = 7633, -- Now that I'm warmed up...
         THAT_LL_HURT_IN_THE_MORNING  = 7634, -- Ungh... That'll hurt in the morning...
+        PROMISE_ME_YOU_WONT_GO_DOWN  = 8004, -- Promise you won't go down too easy, okay?
+        IM_JUST_GETTING_WARMED_UP    = 8005, -- Haha! I'm just getting warmed up!
+        YOU_PACKED_MORE_OF_A_PUNCH   = 8006, -- Hah! You pack more of a punch than I thoughtaru. But I won't go down as easy as old Maat!
+        WHATS_THIS_STRANGE_FEELING   = 8007, -- What's this strange feeling...? It's not supposed to end...like...
+        HUH_IS_THAT_ALL              = 8008, -- Huh? Is that all? I haven't even broken a sweataru...
+        YIKEY_WIKEYS                 = 8009, -- Yikey-wikeys! Get that thing away from meee!
+        WHATS_THE_MATTARU            = 8010, -- <Pant, wheeze>... What's the mattaru, <name>? Too much of a pansy-wansy to fight fair?
     },
     mob =
     {
         HEIR_TO_THE_LIGHT_OFFSET   = 17621014,
+        ATORI_TUTORI_QM            =
+        {
+            17621302,
+            17621303,
+            17621304,
+        },
     },
     npc =
     {

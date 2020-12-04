@@ -83,9 +83,36 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         end
     end
 
-    -- Check for and apply WS_DEX_BONUS
-    if (attacker:getMod(tpz.mod.WS_DEX_BONUS) > 0) then
-        wsParams.dex_wsc = wsParams.dex_wsc + (attacker:getMod(tpz.mod.WS_DEX_BONUS)*.01)
+    -- Begin Checks for bonus wsc bonuses. See the following for details:
+    -- https://www.bg-wiki.com/bg/Utu_Grip
+    -- https://www.bluegartr.com/threads/108199-Random-Facts-Thread-Other?p=6826618&viewfull=1#post6826618
+
+    if attacker:getMod(tpz.mod.WS_STR_BONUS) > 0 then
+        wsParams.str_wsc = wsParams.str_wsc + (attacker:getMod(tpz.mod.WS_STR_BONUS) / 100)
+    end
+
+    if attacker:getMod(tpz.mod.WS_DEX_BONUS) > 0 then
+        wsParams.dex_wsc = wsParams.dex_wsc + (attacker:getMod(tpz.mod.WS_DEX_BONUS) / 100)
+    end
+
+    if attacker:getMod(tpz.mod.WS_VIT_BONUS) > 0 then
+        wsParams.vit_wsc = wsParams.vit_wsc + (attacker:getMod(tpz.mod.WS_VIT_BONUS) / 100)
+    end
+
+    if attacker:getMod(tpz.mod.WS_AGI_BONUS) > 0 then
+        wsParams.agi_wsc = wsParams.agi_wsc + (attacker:getMod(tpz.mod.WS_AGI_BONUS) / 100)
+    end
+
+    if attacker:getMod(tpz.mod.WS_INT_BONUS) > 0 then
+        wsParams.int_wsc = wsParams.int_wsc + (attacker:getMod(tpz.mod.WS_INT_BONUS) / 100)
+    end
+
+    if attacker:getMod(tpz.mod.WS_MND_BONUS) > 0 then
+        wsParams.mnd_wsc = wsParams.mnd_wsc + (attacker:getMod(tpz.mod.WS_MND_BONUS) / 100)
+    end
+
+    if attacker:getMod(tpz.mod.WS_CHR_BONUS) > 0 then
+        wsParams.chr_wsc = wsParams.chr_wsc + (attacker:getMod(tpz.mod.WS_CHR_BONUS) / 100)
     end
 
     local wsMods = calcParams.fSTR +
@@ -96,18 +123,18 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
     local mainBase = calcParams.weaponDamage[1] + wsMods + calcParams.bonusWSmods
 
     -- Calculate fTP multiplier
-    local ftp = fTP(tp,wsParams.ftp100,wsParams.ftp200,wsParams.ftp300) + calcParams.bonusfTP
+    local ftp = fTP(tp, wsParams.ftp100, wsParams.ftp200, wsParams.ftp300) + calcParams.bonusfTP
 
     -- Calculate critrates
     local critRate = 0
 
     if (wsParams.canCrit) then -- Work out critical hit ratios
         local nativecrit = 0
-        critrate = fTP(tp,wsParams.crit100,wsParams.crit200,wsParams.crit300)
+        critrate = fTP(tp, wsParams.crit100, wsParams.crit200, wsParams.crit300)
 
         if calcParams.flourishEffect then
-            if calcParams.flourisheffect:getPower() > 1 then
-                critrate = critrate + (10 + calcParams.flourisheffect:getSubPower()/2)/100
+            if calcParams.flourishEffect:getPower() > 1 then
+                critrate = critrate + (10 + calcParams.flourishEffect:getSubPower()/2)/100
             end
         end
 
@@ -219,7 +246,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     if (wsParams.ignoresDef == not nil and wsParams.ignoresDef == true) then
         ignoredDef = calculatedIgnoredDef(tp, target:getStat(tpz.mod.DEF), wsParams.ignored100, wsParams.ignored200, wsParams.ignored300)
     end
-    local cratio, ccritratio = cMeleeRatio(attacker, target, wsParams, ignoredDef)
+    local cratio, ccritratio = cMeleeRatio(attacker, target, wsParams, ignoredDef, tp)
 
     -- Set up conditions and wsParams used for calculating weaponskill damage
     local gorgetBeltFTP, gorgetBeltAcc = handleWSGorgetBelt(attacker)
@@ -248,8 +275,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, wsParams, tp, action, pri
     calcParams.guaranteedHit = calcParams.sneakApplicable or calcParams.trickApplicable
     calcParams.mightyStrikesApplicable = attacker:hasStatusEffect(tpz.effect.MIGHTY_STRIKES)
     calcParams.forcedFirstCrit = calcParams.sneakApplicable or calcParams.assassinApplicable
-    calcParams.extraOffhandHit = (calcParams.weaponDamage[2] ~= 0) and
-                                 (calcParams.weaponDamage[2] > 0 or attack.weaponType == tpz.skill.HAND_TO_HAND)
+    calcParams.extraOffhandHit = attacker:isDualWielding() or attack.weaponType == tpz.skill.HAND_TO_HAND
     calcParams.hybridHit = wsParams.hybridWS
     calcParams.flourishEffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH)
     calcParams.fencerBonus = fencerBonus(attacker)
@@ -298,7 +324,7 @@ end
     if (wsParams.ignoresDef == not nil and wsParams.ignoresDef == true) then
         ignoredDef = calculatedIgnoredDef(tp, target:getStat(tpz.mod.DEF), wsParams.ignored100, wsParams.ignored200, wsParams.ignored300)
     end
-    local cratio, ccritratio = cRangedRatio(attacker, target, wsParams, ignoredDef)
+    local cratio, ccritratio = cRangedRatio(attacker, target, wsParams, ignoredDef, tp)
 
     -- Set up conditions and params used for calculating weaponskill damage
     local gorgetBeltFTP, gorgetBeltAcc = handleWSGorgetBelt(attacker)
@@ -377,9 +403,36 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
     -- Magic-based WSes never miss, so we don't need to worry about calculating a miss, only if a shadow absorbed it.
     if not shadowAbsorb(target) then
 
-        -- Check for and apply WS_DEX_BONUS
-        if (attacker:getMod(tpz.mod.WS_DEX_BONUS) > 0) then
-             wsParams.dex_wsc = wsParams.dex_wsc + (attacker:getMod(tpz.mod.WS_DEX_BONUS) * 0.01)
+        -- Begin Checks for bonus wsc bonuses. See the following for details:
+        -- https://www.bg-wiki.com/bg/Utu_Grip
+        -- https://www.bluegartr.com/threads/108199-Random-Facts-Thread-Other?p=6826618&viewfull=1#post6826618
+
+        if attacker:getMod(tpz.mod.WS_STR_BONUS) > 0 then
+            wsParams.str_wsc = wsParams.str_wsc + (attacker:getMod(tpz.mod.WS_STR_BONUS) / 100)
+        end
+
+        if attacker:getMod(tpz.mod.WS_DEX_BONUS) > 0 then
+            wsParams.dex_wsc = wsParams.dex_wsc + (attacker:getMod(tpz.mod.WS_DEX_BONUS) / 100)
+        end
+
+        if attacker:getMod(tpz.mod.WS_VIT_BONUS) > 0 then
+            wsParams.vit_wsc = wsParams.vit_wsc + (attacker:getMod(tpz.mod.WS_VIT_BONUS) / 100)
+        end
+
+        if attacker:getMod(tpz.mod.WS_AGI_BONUS) > 0 then
+            wsParams.agi_wsc = wsParams.agi_wsc + (attacker:getMod(tpz.mod.WS_AGI_BONUS) / 100)
+        end
+
+        if attacker:getMod(tpz.mod.WS_INT_BONUS) > 0 then
+            wsParams.int_wsc = wsParams.int_wsc + (attacker:getMod(tpz.mod.WS_INT_BONUS) / 100)
+        end
+
+        if attacker:getMod(tpz.mod.WS_MND_BONUS) > 0 then
+            wsParams.mnd_wsc = wsParams.mnd_wsc + (attacker:getMod(tpz.mod.WS_MND_BONUS) / 100)
+        end
+
+        if attacker:getMod(tpz.mod.WS_CHR_BONUS) > 0 then
+            wsParams.chr_wsc = wsParams.chr_wsc + (attacker:getMod(tpz.mod.WS_CHR_BONUS) / 100)
         end
 
         dmg = attacker:getMainLvl() + 2 + (attacker:getStat(tpz.mod.STR) * wsParams.str_wsc + attacker:getStat(tpz.mod.DEX) * wsParams.dex_wsc +
@@ -388,7 +441,7 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
              attacker:getStat(tpz.mod.CHR) * wsParams.chr_wsc) + fint
 
         -- Applying fTP multiplier
-        local ftp = fTP(tp,wsParams.ftp100,wsParams.ftp200,wsParams.ftp300) + bonusfTP
+        local ftp = fTP(tp, wsParams.ftp100, wsParams.ftp200, wsParams.ftp300) + bonusfTP
 
         dmg = dmg * ftp
 
@@ -467,6 +520,10 @@ function takeWeaponskillDamage(defender, attacker, wsParams, primaryMsg, attack,
 end
 
 function fencerBonus(attacker)
+    if attacker:getObjType() ~= tpz.objType.PC then
+        return 0
+    end
+
     local mainEquip = attacker:getStorageItem(0, 0, tpz.slot.MAIN)
     if mainEquip and not mainEquip:isTwoHanded() and not mainEquip:isHandToHand() then
         local subEquip = attacker:getStorageItem(0, 0, tpz.slot.SUB)
@@ -494,16 +551,16 @@ function souleaterBonus(attacker, numhits)
             end
             hitscounted = hitscounted + 1
         end
-        attacker:takeDamage(numhits*0.10*attacker:getHP())
+        attacker:delHP(numhits*0.10*attacker:getHP())
         return damage
     else
         return 0
     end
 end
 
-function accVariesWithTP(hitrate,acc,tp,a1,a2,a3)
+function accVariesWithTP(hitrate, acc, tp, a1, a2, a3)
     -- sadly acc varies with tp ALL apply an acc PENALTY, the acc at various %s are given as a1 a2 a3
-    accpct = fTP(tp,a1,a2,a3)
+    accpct = fTP(tp, a1, a2, a3)
     acclost = acc - (acc*accpct)
     hrate = hitrate - (0.005*acclost)
     -- cap it
@@ -535,7 +592,7 @@ function getMeleeDmg(attacker, weaponType, kick)
     return {mainhandDamage, offhandDamage}
 end
 
-function getHitRate(attacker,target,capHitRate,bonus)
+function getHitRate(attacker, target, capHitRate, bonus)
     local flourisheffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH)
     if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
         attacker:addMod(tpz.mod.ACC, 20 + flourisheffect:getSubPower())
@@ -591,7 +648,7 @@ function getHitRate(attacker,target,capHitRate,bonus)
     return hitrate
 end
 
-function getRangedHitRate(attacker,target,capHitRate,bonus)
+function getRangedHitRate(attacker, target, capHitRate, bonus)
     local acc = attacker:getRACC()
     local eva = target:getEVA()
 
@@ -637,10 +694,7 @@ function getRangedHitRate(attacker,target,capHitRate,bonus)
     return hitrate
 end
 
-function fTP(tp,ftp1,ftp2,ftp3)
-    if (tp < 1000) then
-        tp = 1000
-    end
+function fTP(tp, ftp1, ftp2, ftp3)
     if (tp >= 1000 and tp < 2000) then
         return ftp1 + ( ((ftp2-ftp1)/1000) * (tp-1000))
     elseif (tp >= 2000 and tp <= 3000) then
@@ -662,13 +716,13 @@ function calculatedIgnoredDef(tp, def, ignore1, ignore2, ignore3)
 end
 
 -- Given the raw ratio value (atk/def) and levels, returns the cRatio (min then max)
-function cMeleeRatio(attacker, defender, params, ignoredDef)
+function cMeleeRatio(attacker, defender, params, ignoredDef, tp)
 
     local flourisheffect = attacker:getStatusEffect(tpz.effect.BUILDING_FLOURISH)
     if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
         attacker:addMod(tpz.mod.ATTP, 25 + flourisheffect:getSubPower() / 2)
     end
-    local atkmulti = fTP(params.atk100, params.atk200, params.atk300)
+    local atkmulti = fTP(tp, params.atk100, params.atk200, params.atk300)
     local cratio = (attacker:getStat(tpz.mod.ATT) * atkmulti) / (defender:getStat(tpz.mod.DEF) - ignoredDef)
     cratio = utils.clamp(cratio, 0, 2.25)
     if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
@@ -761,9 +815,9 @@ function cMeleeRatio(attacker, defender, params, ignoredDef)
     return pdif, pdifcrit
 end
 
-function cRangedRatio(attacker, defender, params, ignoredDef)
+function cRangedRatio(attacker, defender, params, ignoredDef, tp)
 
-    local atkmulti = fTP(params.atk100, params.atk200, params.atk300)
+    local atkmulti = fTP(tp, params.atk100, params.atk200, params.atk300)
     local cratio = attacker:getRATT() / (defender:getStat(tpz.mod.DEF) - ignoredDef)
 
     local levelcor = 0
@@ -984,7 +1038,7 @@ end
 function generatePdif (cratiomin, cratiomax, melee)
     local pdif = math.random(cratiomin*1000, cratiomax*1000) / 1000
     if (melee) then
-        pdif = pdif * (math.random(100,105)/100)
+        pdif = pdif * (math.random(100, 105)/100)
     end
     return pdif
 end
@@ -1054,7 +1108,7 @@ function handleWSGorgetBelt(attacker)
         local belt = attacker:getEquipID(tpz.slot.WAIST)
         local SCProp1, SCProp2, SCProp3 = attacker:getWSSkillchainProp()
 
-        for i,v in ipairs(elementalGorget) do
+        for i, v in ipairs(elementalGorget) do
             if (neck == v) then
                 if (doesElementMatchWeaponskill(i, SCProp1) or doesElementMatchWeaponskill(i, SCProp2) or doesElementMatchWeaponskill(i, SCProp3)) then
                     accBonus = accBonus + 10
@@ -1069,7 +1123,7 @@ function handleWSGorgetBelt(attacker)
             ftpBonus = ftpBonus + 0.1
         end
 
-        for i,v in ipairs(elementalBelt) do
+        for i, v in ipairs(elementalBelt) do
             if (belt == v) then
                 if (doesElementMatchWeaponskill(i, SCProp1) or doesElementMatchWeaponskill(i, SCProp2) or doesElementMatchWeaponskill(i, SCProp3)) then
                     accBonus = accBonus + 10

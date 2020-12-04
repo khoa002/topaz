@@ -16,6 +16,9 @@ zones[tpz.zone.ABYSSEA_ATTOHWA] =
         GIL_OBTAINED            = 6389, -- Obtained <number> gil.
         KEYITEM_OBTAINED        = 6391, -- Obtained key item: <keyitem>.
         CRUOR_TOTAL             = 6986, -- Obtained <number> cruor. (Total: <number>)
+        CARRIED_OVER_POINTS     = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER            = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CRUOR_OBTAINED          = 7395, -- <name> obtained <number> cruor.
     },
     mob =
@@ -25,6 +28,8 @@ zones[tpz.zone.ABYSSEA_ATTOHWA] =
     {
         QM_POPS =
         {
+            -- TODO: the first item, e.g. 'qm1', is unused and will be meaningless once I (Wren) finish entity-QC on all Abyssea zones.
+            -- When that is done, I will rewrite Abyssea global and adjust and neaten this table
             --  [17658351] = { 'qm1', {3072},                                                                                                                       {}, 17658261}, -- Granite Borer
             --  [17658352] = { 'qm2', {3073},                                                                                                                       {}, 17658262}, -- Blazing Eruca
             --  [17658353] = { 'qm3', {3074},                                                                                                                       {}, 17658263}, -- Pallid Percy
@@ -39,17 +44,17 @@ zones[tpz.zone.ABYSSEA_ATTOHWA] =
             --  [17658362] = {'qm12', {3083},                                                                                                                       {}, 17658272}, -- Wherwetrice
             --  [17658363] = {'qm13', {3084},                                                                                                                       {}, 17658273}, -- Mielikki
             --  [17658364] = {'qm14',     {},                                                                                               {tpz.ki.HOLLOW_DRAGON_EYE}, 17658274}, -- Smok
-            --  [17658365] = {'qm15',     {}, {tpz.ki.BLOTCHED_DOOMED_TONGUE,tpz.ki.CRACKED_SKELETON_CLAVICLE,tpz.ki.WRITHING_GHOST_FINGER,tpz.ki.RUSTED_HOUND_COLLAR}, 17658275}, -- Titlacauan
-            --  [17658366] = {'qm16',     {},                                                              {tpz.ki.MUCID_WORM_SEGMENT,tpz.ki.SHRIVELED_HECTEYES_STALK}, 17658276}, -- Ulhuadshi
-            --  [17658367] = {'qm17',     {},                           {tpz.ki.VENOMOUS_WAMOURA_FEELER,tpz.ki.BULBOUS_CRAWLER_COCOON,tpz.ki.DISTENDED_CHIGOE_ABDOMEN}, 17658277}, -- Itzpapalotl
+            --  [17658365] = {'qm15',     {}, {tpz.ki.BLOTCHED_DOOMED_TONGUE, tpz.ki.CRACKED_SKELETON_CLAVICLE, tpz.ki.WRITHING_GHOST_FINGER, tpz.ki.RUSTED_HOUND_COLLAR}, 17658275}, -- Titlacauan
+            --  [17658366] = {'qm16',     {},                                                              {tpz.ki.MUCID_WORM_SEGMENT, tpz.ki.SHRIVELED_HECTEYES_STALK}, 17658276}, -- Ulhuadshi
+            --  [17658367] = {'qm17',     {},                           {tpz.ki.VENOMOUS_WAMOURA_FEELER, tpz.ki.BULBOUS_CRAWLER_COCOON, tpz.ki.DISTENDED_CHIGOE_ABDOMEN}, 17658277}, -- Itzpapalotl
             --  [17658368] = {'qm18',     {},                                                                                               {tpz.ki.HOLLOW_DRAGON_EYE}, 17658278}, -- Smok
-            --  [17658369] = {'qm19',     {}, {tpz.ki.BLOTCHED_DOOMED_TONGUE,tpz.ki.CRACKED_SKELETON_CLAVICLE,tpz.ki.WRITHING_GHOST_FINGER,tpz.ki.RUSTED_HOUND_COLLAR}, 17658279}, -- Titlacauan
-            --  [17658370] = {'qm20',     {},                                                              {tpz.ki.MUCID_WORM_SEGMENT,tpz.ki.SHRIVELED_HECTEYES_STALK}, 17658280}, -- Ulhuadshi
-            --  [17658371] = {'qm21',     {},                           {tpz.ki.VENOMOUS_WAMOURA_FEELER,tpz.ki.BULBOUS_CRAWLER_COCOON,tpz.ki.DISTENDED_CHIGOE_ABDOMEN}, 17658281}, -- Itzpapalotl
+            --  [17658369] = {'qm19',     {}, {tpz.ki.BLOTCHED_DOOMED_TONGUE, tpz.ki.CRACKED_SKELETON_CLAVICLE, tpz.ki.WRITHING_GHOST_FINGER, tpz.ki.RUSTED_HOUND_COLLAR}, 17658279}, -- Titlacauan
+            --  [17658370] = {'qm20',     {},                                                              {tpz.ki.MUCID_WORM_SEGMENT, tpz.ki.SHRIVELED_HECTEYES_STALK}, 17658280}, -- Ulhuadshi
+            --  [17658371] = {'qm21',     {},                           {tpz.ki.VENOMOUS_WAMOURA_FEELER, tpz.ki.BULBOUS_CRAWLER_COCOON, tpz.ki.DISTENDED_CHIGOE_ABDOMEN}, 17658281}, -- Itzpapalotl
             --  [17658372] = {'qm22',     {},                                                                                               {tpz.ki.HOLLOW_DRAGON_EYE}, 17658282}, -- Smok
-            --  [17658373] = {'qm23',     {}, {tpz.ki.BLOTCHED_DOOMED_TONGUE,tpz.ki.CRACKED_SKELETON_CLAVICLE,tpz.ki.WRITHING_GHOST_FINGER,tpz.ki.RUSTED_HOUND_COLLAR}, 17658283}, -- Titlacauan
-            --  [17658374] = {'qm24',     {},                                                              {tpz.ki.MUCID_WORM_SEGMENT,tpz.ki.SHRIVELED_HECTEYES_STALK}, 17658284}, -- Ulhuadshi
-            --  [17658375] = {'qm25',     {},                           {tpz.ki.VENOMOUS_WAMOURA_FEELER,tpz.ki.BULBOUS_CRAWLER_COCOON,tpz.ki.DISTENDED_CHIGOE_ABDOMEN}, 17658285}, -- Itzpapalotl
+            --  [17658373] = {'qm23',     {}, {tpz.ki.BLOTCHED_DOOMED_TONGUE, tpz.ki.CRACKED_SKELETON_CLAVICLE, tpz.ki.WRITHING_GHOST_FINGER, tpz.ki.RUSTED_HOUND_COLLAR}, 17658283}, -- Titlacauan
+            --  [17658374] = {'qm24',     {},                                                              {tpz.ki.MUCID_WORM_SEGMENT, tpz.ki.SHRIVELED_HECTEYES_STALK}, 17658284}, -- Ulhuadshi
+            --  [17658375] = {'qm25',     {},                           {tpz.ki.VENOMOUS_WAMOURA_FEELER, tpz.ki.BULBOUS_CRAWLER_COCOON, tpz.ki.DISTENDED_CHIGOE_ABDOMEN}, 17658285}, -- Itzpapalotl
         },
     },
 }

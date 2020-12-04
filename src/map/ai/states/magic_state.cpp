@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -123,14 +123,7 @@ bool CMagicState::Update(time_point tick)
             PTarget->PAI->EventHandler.triggerListener("MAGIC_TAKE", PTarget, m_PEntity, m_PSpell.get(), &action);
         }
 
-        if (PTarget && PTarget->objtype == TYPE_TRUST)
-        {
-            PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE_SELF, new CActionPacket(action));
-        }
-        else
-        {
-            m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
-        }
+        m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             
         Complete();
     }
@@ -359,4 +352,9 @@ void CMagicState::TryInterrupt(CBattleEntity* PAttacker)
     {
         m_interrupted = true;
     }
+}
+
+void CMagicState::ApplyMagicCoverEnmity(CBattleEntity* PCoverAbilityTarget, CBattleEntity* PCoverAbilityUser, CMobEntity* PMob)
+{
+    PMob->PEnmityContainer->UpdateEnmityFromCover(PCoverAbilityTarget, PCoverAbilityUser);
 }

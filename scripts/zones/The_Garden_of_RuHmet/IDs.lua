@@ -14,6 +14,9 @@ zones[tpz.zone.THE_GARDEN_OF_RUHMET] =
         ITEM_OBTAINED           = 6388, -- Obtained: <item>.
         GIL_OBTAINED            = 6389, -- Obtained <number> gil.
         KEYITEM_OBTAINED        = 6391, -- Obtained key item: <keyitem>.
+        CARRIED_OVER_POINTS     = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER            = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE           = 7439, -- Tallying conquest results...
         NO_NEED_INVESTIGATE     = 7618, -- There is no need to investigate further.
         PORTAL_SEALED           = 7647, -- The portal is firmly sealed by a mysterious energy.
@@ -49,26 +52,26 @@ zones[tpz.zone.THE_GARDEN_OF_RUHMET] =
     {
         IXAERN_DRK_QM_POS          =
         {
-            {-240,5.00,440}, -- Hume-Elvaan
-            {-280,5.00,240}, -- Elvaan-Galka
-            {-560,5.00,239}, -- Taru-Mithra
-            {-600,5.00,440}, -- Mithra-Hume
+            {-240, 5.00, 440}, -- Hume-Elvaan
+            {-280, 5.00, 240}, -- Elvaan-Galka
+            {-560, 5.00, 239}, -- Taru-Mithra
+            {-600, 5.00, 440}, -- Mithra-Hume
         },
         JAILER_OF_FORTITUDE_QM_POS =
         {
-            {-420.00,0.00,755.00}, -- North / Hume tower.
-            {-43.00,0.00,460.00},  -- NE / Elvaan tower.
-            {-260.00,0.00,44.821}, -- SE / Galka tower.
-            {-580.00,0.00,43.00},  -- SW / Tarutaru tower.
-            {-796.00,0.00,460.00}, -- NW / Mithra tower.
+            {-420.00, 0.00, 755.00}, -- North / Hume tower.
+            {-43.00, 0.00, 460.00},  -- NE / Elvaan tower.
+            {-260.00, 0.00, 44.821}, -- SE / Galka tower.
+            {-580.00, 0.00, 43.00},  -- SW / Tarutaru tower.
+            {-796.00, 0.00, 460.00}, -- NW / Mithra tower.
         },
         JAILER_OF_FAITH_QM_POS     =
         {
-            {-420.00,0.00,-157.00}, -- North / Hume tower.
-            {-157.00,0.00,-340.00}, -- NE / Elvaan tower.
-            {-260.00,0.00,-643.00}, -- SE / Galka tower.
-            {-580.00,0.00,-644.00}, -- SW / Tarutaru tower.
-            {-683.00,0.00,-340.00}, -- NW / Mithra tower.
+            {-420.00, 0.00, -157.00}, -- North / Hume tower.
+            {-157.00, 0.00, -340.00}, -- NE / Elvaan tower.
+            {-260.00, 0.00, -643.00}, -- SE / Galka tower.
+            {-580.00, 0.00, -644.00}, -- SW / Tarutaru tower.
+            {-683.00, 0.00, -340.00}, -- NW / Mithra tower.
         },
         JAILER_OF_FORTITUDE_QM     = 16921027,
         IXAERN_DRK_QM              = 16921028,

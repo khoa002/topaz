@@ -16,6 +16,9 @@ zones[tpz.zone.GUSGEN_MINES] =
         KEYITEM_OBTAINED         = 6391,  -- Obtained key item: <keyitem>.
         NOTHING_OUT_OF_ORDINARY  = 6402,  -- There is nothing out of the ordinary here.
         FELLOW_MESSAGE_OFFSET    = 6417,  -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS      = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY  = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER             = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         GEOMAGNETRON_ATTUNED     = 7010,  -- Your <keyitem> has been attuned to a geomagnetic fount in the corresponding locale.
         CONQUEST_BASE            = 7049,  -- Tallying conquest results...
         FISHING_MESSAGE_OFFSET   = 7208,  -- You can't fish here.
@@ -40,6 +43,7 @@ zones[tpz.zone.GUSGEN_MINES] =
     {
         BLIND_MOBY          = 17580038,
         WANDERING_GHOST     = 17580337,
+        PUDDING_OFFSET      = 17580338,
         APPARATUS_ELEMENTAL = 17580340,
         AROMA_FLY           = 17580341,
     },

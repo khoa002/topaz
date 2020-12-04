@@ -18,6 +18,9 @@ zones[tpz.zone.CARPENTERS_LANDING] =
         ITEMS_OBTAINED             = 6397, -- You obtain <number> <item>!
         NOTHING_OUT_OF_ORDINARY    = 6402, -- There is nothing out of the ordinary here.
         FELLOW_MESSAGE_OFFSET      = 6417, -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS        = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY    = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER               = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE              = 7049, -- Tallying conquest results...
         CRYPTONBERRY_FALLEN_TREE   = 7246, -- A tree has fallen here...
         CRYPTONBERRY_EXECUTOR_POP  = 7247, -- You feel a wave of hatred wash over you!
@@ -35,7 +38,7 @@ zones[tpz.zone.CARPENTERS_LANDING] =
     {
         ORCTRAP_PH            =
         {
-            [16785673] = 16785676, -- 181.819 -5.887 -524.872
+            [16785675] = 16785676, -- 181.819 -5.887 -524.872
         },
         TEMPEST_TIGON         = 16785593,
         OVERGROWN_IVY         = 16785709,
@@ -52,7 +55,7 @@ zones[tpz.zone.CARPENTERS_LANDING] =
             16785732,
             16785733,
             16785734,
-            16785784,
+            16785735,
         },
         LOGGING =
         {

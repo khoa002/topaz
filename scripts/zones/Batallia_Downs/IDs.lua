@@ -17,6 +17,9 @@ zones[tpz.zone.BATALLIA_DOWNS] =
         KEYITEM_OBTAINED         = 6413,  -- Obtained key item: <keyitem>.
         NOTHING_OUT_OF_ORDINARY  = 6424,  -- There is nothing out of the ordinary here.
         FELLOW_MESSAGE_OFFSET    = 6439,  -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS      = 7021, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY  = 7022, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER             = 7023, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE            = 7071,  -- Tallying conquest results...
         FISHING_MESSAGE_OFFSET   = 7230,  -- You can't fish here.
         DIG_THROW_AWAY           = 7243,  -- You dig up <item>, but your inventory is full. You regretfully throw the <item> away.
@@ -29,6 +32,10 @@ zones[tpz.zone.BATALLIA_DOWNS] =
         NO_COMBINATION           = 7698,  -- You were unable to enter a combination.
         REGIME_REGISTERED        = 9976,  -- New training regime registered!
         COMMON_SENSE_SURVIVAL    = 12832, -- It appears that you have arrived at a new survival guide provided by the Adventurers' Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
+        RAPTOR_OVERCOME_MUNCHIES = 12985, -- The raptor has overcome the munchies! (<number>/<number>)
+        RAPTOR_SECOND_WIND       = 12986, -- The raptor has gained a second wind!
+        MEET_SYRILLIA            = 12987, -- Meet up with Syrillia.
+        RAPTOR_SPEEDS_OFF        = 12988, -- The raptor speeds off into the sunset...
     },
     mob =
     {
@@ -52,7 +59,10 @@ zones[tpz.zone.BATALLIA_DOWNS] =
     },
     npc =
     {
-        CASKET_BASE   = 17207794,
+        CASKET_BASE      = 17207794,
+        SYRILLIA         = 17207972,
+        BLUE_BEAM_BASE   = 17207973,
+        RAPTOR_FOOD_BASE = 17207981,
     },
 }
 

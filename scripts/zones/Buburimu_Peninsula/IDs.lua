@@ -17,6 +17,9 @@ zones[tpz.zone.BUBURIMU_PENINSULA] =
         KEYITEM_OBTAINED               = 6426,  -- Obtained key item: <keyitem>.
         KEYITEM_LOST                   = 6427,  -- Lost key item: <keyitem>.
         FELLOW_MESSAGE_OFFSET          = 6452,  -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS            = 7034, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY        = 7035, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER                   = 7036, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE                  = 7084,  -- Tallying conquest results...
         BEASTMEN_BANNER                = 7165,  -- There is a beastmen's banner.
         FIVEOFSPADES_DIALOG            = 7243,  -- GiMmefIvE! FiVe isA cArdIanOF WiN-DuRst! FIvEiS OnpA-tRol!
@@ -46,13 +49,7 @@ zones[tpz.zone.BUBURIMU_PENINSULA] =
     },
     mob =
     {
-        BUBURIMBOO_PH =
-        {
-            [17261000] = 17261003, -- 443.429 19.500 135.322
-            [17261002] = 17261003, -- 442.901 19.500 109.075
-            [17261001] = 17261003, -- 443.004 19.500 96.000
-            [17260999] = 17261003, -- 444.224 19.499 76.000
-        },
+        BACKOO        = 17260613,
         HELLDIVER_PH  =
         {
             [17260886] = 17260907, -- 439.685 -0.200 -271.203
@@ -60,6 +57,13 @@ zones[tpz.zone.BUBURIMU_PENINSULA] =
             [17260905] = 17260907, -- 503.268 -0.981 -211.204
             [17260868] = 17260907, -- 395.297 -0.037 -149.776
             [17260887] = 17260907, -- 445.199 -0.323 -306.818
+        },
+        BUBURIMBOO_PH =
+        {
+            [17261000] = 17261003, -- 443.429 19.500 135.322
+            [17261002] = 17261003, -- 442.901 19.500 109.075
+            [17261001] = 17261003, -- 443.004 19.500 96.000
+            [17260999] = 17261003, -- 444.224 19.499 76.000
         },
     },
     npc =

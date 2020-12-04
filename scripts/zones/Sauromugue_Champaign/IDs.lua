@@ -17,6 +17,9 @@ zones[tpz.zone.SAUROMUGUE_CHAMPAIGN] =
         KEYITEM_OBTAINED         = 6413,  -- Obtained key item: <keyitem>.
         NOTHING_OUT_OF_ORDINARY  = 6424,  -- There is nothing out of the ordinary here.
         FELLOW_MESSAGE_OFFSET    = 6439,  -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS      = 7021, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY  = 7022, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER             = 7023, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE            = 7071,  -- Tallying conquest results...
         MANY_TIGER_BONES         = 7230,  -- There are many tiger bones here...
         OLD_SABERTOOTH_DIALOG_I  = 7236,  -- You hear the distant roar of a tiger. It sounds as if the beast is approaching slowly...
@@ -45,6 +48,10 @@ zones[tpz.zone.SAUROMUGUE_CHAMPAIGN] =
         {
             [17269013] = 17269016, -- 240.725 1.853 223.185
         },
+        BASHE_PH =
+        {
+            [17268782] = 17268788, -- 537.188 6.167 -11.067
+        },
         OLD_SABERTOOTH     = 17268808,
         ROC                = 17269106,
         CLIMBPIX_HIGHRISE  = 17269107,
@@ -53,6 +60,7 @@ zones[tpz.zone.SAUROMUGUE_CHAMPAIGN] =
     npc =
     {
         CASKET_BASE = 17269190,
+        QM2         = 17269228,
     },
 }
 

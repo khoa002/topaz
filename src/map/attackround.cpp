@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -47,6 +47,16 @@ CAttackRound::CAttackRound(CBattleEntity* attacker, CBattleEntity* defender)
     // Grab a trick attack assistant.
     m_taEntity = battleutils::getAvailableTrickAttackChar(attacker, attacker->GetBattleTarget());
 
+    // Get cover partner
+    if (attacker->GetBattleTarget()->objtype == TYPE_PC)
+    {
+        m_coverAbilityUserEntity = battleutils::GetCoverAbilityUser(attacker->GetBattleTarget(), attacker);
+    }
+    else
+    {
+        m_coverAbilityUserEntity = nullptr;
+    }
+
     // Build main weapon attacks.
     CreateAttacks(dynamic_cast<CItemWeapon*>(attacker->m_Weapons[SLOT_MAIN]), RIGHTATTACK);
 
@@ -60,8 +70,7 @@ CAttackRound::CAttackRound(CBattleEntity* attacker, CBattleEntity* defender)
         CreateKickAttacks();
     }
 
-    else if ((m_subWeaponType > 0 && m_subWeaponType < 4) ||
-        (attacker->objtype == TYPE_MOB && static_cast<CMobEntity*>(attacker)->getMobMod(MOBMOD_DUAL_WIELD)))
+    else if (attacker->m_dualWield)
     {
         CreateAttacks(dynamic_cast<CItemWeapon*>(attacker->m_Weapons[SLOT_SUB]), LEFTATTACK);
     }
@@ -151,6 +160,16 @@ CBattleEntity*	CAttackRound::GetTAEntity()
 
 /************************************************************************
 *                                                                       *
+*  Returns the Cover entity.                                            *
+*                                                                       *
+************************************************************************/
+CBattleEntity* CAttackRound::GetCoverAbilityUserEntity()
+{
+    return m_coverAbilityUserEntity;
+}
+
+/************************************************************************
+*                                                                       *
 *  Returns the H2H flag.                                                *
 *                                                                       *
 ************************************************************************/
@@ -213,6 +232,13 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
         num = PWeapon->getHitCount();
     }
 
+    // Existance of "Occasionally attacks X times" overwrites PWeapon hit count
+    if (isPC && m_attacker->getMod(Mod::MAX_SWINGS))
+    {
+        auto modSwings = std::min<uint8>((uint8)static_cast<CCharEntity*>(m_attacker)->getMod(Mod::MAX_SWINGS),8);
+        num = battleutils::getHitCount(modSwings);
+    }
+
     // If the attacker is a mobentity or derived from mobentity, check to see if it has any special mutli-hit capabilties
     if (dynamic_cast<CMobEntity*>(m_attacker))
     {
@@ -222,20 +248,24 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
             num = 1 + battleutils::getHitCount(multiHitMax);
     }
 
-    AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, num);
-
     // Checking the players triple, double and quadruple attack
     int16 tripleAttack = m_attacker->getMod(Mod::TRIPLE_ATTACK);
     int16 doubleAttack = m_attacker->getMod(Mod::DOUBLE_ATTACK);
     int16 quadAttack = m_attacker->getMod(Mod::QUAD_ATTACK);
+    // Checking for Mythic Weapon Aftermath
+    int16 occAttThriceRate = std::clamp<int16>(m_attacker->getMod(Mod::MYTHIC_OCC_ATT_THRICE), 0, 100);
+    int16 occAttTwiceRate = std::clamp<int16>(m_attacker->getMod(Mod::MYTHIC_OCC_ATT_TWICE), 0, 100);
 
-    //check for merit upgrades
+    // Checking for merit upgrades
     if (isPC)
     {
         CCharEntity* PChar = (CCharEntity*)m_attacker;
 
-        //merit chance only applies if player has the job trait
-        if (charutils::hasTrait(PChar, TRAIT_TRIPLE_ATTACK)) tripleAttack += PChar->PMeritPoints->GetMeritValue(MERIT_TRIPLE_ATTACK_RATE, PChar);
+        // Merit chance only applies if player has the job trait
+        if (charutils::hasTrait(PChar, TRAIT_TRIPLE_ATTACK))
+        {
+            tripleAttack += PChar->PMeritPoints->GetMeritValue(MERIT_TRIPLE_ATTACK_RATE, PChar);
+        }
 
         // Ambush Augment adds +1% Triple Attack per merit (need to satisfy conditions for Ambush)
         if (charutils::hasTrait(PChar, TRAIT_AMBUSH) && PChar->getMod(Mod::AUGMENTS_AMBUSH) > 0 && abs(m_defender->loc.p.rotation - m_attacker->loc.p.rotation) < 23)
@@ -243,13 +273,19 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
             tripleAttack += PChar->PMeritPoints->GetMerit(MERIT_AMBUSH)->count;
         }
 
-        if (charutils::hasTrait(PChar, TRAIT_DOUBLE_ATTACK)) doubleAttack += PChar->PMeritPoints->GetMeritValue(MERIT_DOUBLE_ATTACK_RATE, PChar);
+        if (charutils::hasTrait(PChar, TRAIT_DOUBLE_ATTACK))
+        {
+            doubleAttack += PChar->PMeritPoints->GetMeritValue(MERIT_DOUBLE_ATTACK_RATE, PChar);
+        }
         // TODO: Quadruple attack merits when SE release them.
     }
-
     quadAttack = std::clamp<int16>(quadAttack, 0, 100);
     doubleAttack = std::clamp<int16>(doubleAttack, 0, 100);
     tripleAttack = std::clamp<int16>(tripleAttack, 0, 100);
+
+    // Preference matters! The following are additional hits to the default hit that don't stack up
+    // Mikage > Quad > Triple > Double > Mythic Aftermath > Occasionally Attacks > Dynamis [D] Follow-Up > Hasso + Zanshin
+    // Daken is handled separately in CreateDakenAttack() and Zanshin in src/map/entities/battleentity.cpp#L1768
 
     // Checking Mikage Effect - Hits Vary With Num of Utsusemi Shadows for Main Weapon
     if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIKAGE) && m_attacker->m_Weapons[SLOT_MAIN]->getID() == PWeapon->getID())
@@ -258,31 +294,49 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
         //ShowDebug(CL_CYAN"Create Attacks: Mikage Active, Rolling Attack Chance for %d Shadowss...\n" CL_RESET, shadows);
         AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, shadows);
     }
-    else if (num == 1 && tpzrand::GetRandomNumber(100) < quadAttack)
-        AddAttackSwing(PHYSICAL_ATTACK_TYPE::QUAD, direction, 3);
-
-    else if (num == 1 && tpzrand::GetRandomNumber(100) < tripleAttack)
-        AddAttackSwing(PHYSICAL_ATTACK_TYPE::TRIPLE, direction, 2);
-
-    else if (num == 1 && tpzrand::GetRandomNumber(100) < doubleAttack)
-        AddAttackSwing(PHYSICAL_ATTACK_TYPE::DOUBLE, direction, 1);
-
-    // Apply Mythic OAT mods (mainhand only)
-    if (direction == PHYSICAL_ATTACK_DIRECTION::RIGHTATTACK)
+    // Quad/Triple/Double Attack
+    else if (tpzrand::GetRandomNumber(100) < quadAttack)
     {
-        int16 occAttThriceRate = std::clamp<int16>(m_attacker->getMod(Mod::MYTHIC_OCC_ATT_THRICE), 0, 100);
-        int16 occAttTwiceRate = std::clamp<int16>(m_attacker->getMod(Mod::MYTHIC_OCC_ATT_TWICE), 0, 100);
-        if (num == 1 && tpzrand::GetRandomNumber(100) < occAttThriceRate)
-        {
-            AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, 2);
-        }
-        else if (num == 1 && tpzrand::GetRandomNumber(100) < occAttTwiceRate)
-        {
-            AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, 1);
-        }
+        AddAttackSwing(PHYSICAL_ATTACK_TYPE::QUAD, direction, 3);
+    }
+    else if (tpzrand::GetRandomNumber(100) < tripleAttack)
+    {
+        AddAttackSwing(PHYSICAL_ATTACK_TYPE::TRIPLE, direction, 2);
+    }
+    else if (tpzrand::GetRandomNumber(100) < doubleAttack)
+    {
+        AddAttackSwing(PHYSICAL_ATTACK_TYPE::DOUBLE, direction, 1);
+    }
+    // Mythic Weapons Aftermath, only main hand
+    else if (direction == PHYSICAL_ATTACK_DIRECTION::RIGHTATTACK && tpzrand::GetRandomNumber(100) < occAttThriceRate)
+    {
+        AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, 2);
+    }
+    else if (direction == PHYSICAL_ATTACK_DIRECTION::RIGHTATTACK && tpzrand::GetRandomNumber(100) < occAttTwiceRate)
+    {
+        AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, 1);
+    }
+    // Iga Garb +2 Set augment: possibility to add another swing while using Dual Wield
+    // TODO: Double check correct priority for Empyrian armor modifiers? Outsource? Lua function?
+    else if (direction == LEFTATTACK && tpzrand::GetRandomNumber(100) < m_attacker->getMod(Mod::EXTRA_DUAL_WIELD_ATTACK))
+    {
+        AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, RIGHTATTACK, 1);
+    }
+    // "Occasionally attacks X times" and regular multiple hits
+    else if (num > 1)
+    {
+        // Deduct the final default hit!
+        AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, (num - 1));
+    }
+    // TODO: Dynamis [D] weapons Follow-Up attack chance
+
+    // Additional swing modifier (stacks!), mostly for Amood weapons
+    if (isPC && tpzrand::GetRandomNumber(100) < m_attacker->getMod(Mod::ADDITIONAL_SWING_CHANCE))
+    {
+        AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, 1);
     }
 
-    // Ammo extra swing - players only
+    // Ammunition provoked additional swing (stacks!), mostly for Virtue Stone weapons
     if (isPC && m_attacker->getMod(Mod::AMMO_SWING) > 0)
     {
         // Check for ammo
@@ -294,13 +348,14 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
         uint8 loc = PChar->equipLoc[SLOT_AMMO];
         uint8 ammoCount = 0;
 
-        // Handedness check, checking mod of the weapon for the purposes of level scaling
+        // Two handed and Hand-to-Hand
         if (battleutils::GetScaledItemModifier(PChar, PMain, Mod::AMMO_SWING_TYPE) == 2 &&
             tpzrand::GetRandomNumber(100) < m_attacker->getMod(Mod::AMMO_SWING) && PAmmo != nullptr && ammoCount < PAmmo->getQuantity())
         {
             AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, 1);
             ammoCount += 1;
         }
+        // One handed
         else
         {
             if (direction == RIGHTATTACK && battleutils::GetScaledItemModifier(PChar, PMain, Mod::AMMO_SWING_TYPE) == 1 &&
@@ -317,6 +372,7 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
             }
         }
 
+        // Deduct ammo
         if (PAmmo != nullptr)
         {
             if (PAmmo->getQuantity() == ammoCount)
@@ -329,13 +385,8 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
         }
     }
 
-
-    // TODO: Possible Lua function for the nitty gritty stuff below.
-
-    // Iga mod: Extra attack chance whilst dual wield is on.
-    if (direction == LEFTATTACK && tpzrand::GetRandomNumber(100) < m_attacker->getMod(Mod::EXTRA_DUAL_WIELD_ATTACK))
-        AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, RIGHTATTACK, 1);
-
+    // Default hit
+    AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, 1);
 }
 
 /************************************************************************

@@ -18,6 +18,9 @@ zones[tpz.zone.DAVOI] =
         ITEMS_OBTAINED              = 6397, -- You obtain <number> <item>!
         NOTHING_OUT_OF_ORDINARY     = 6402, -- There is nothing out of the ordinary here.
         FELLOW_MESSAGE_OFFSET       = 6417, -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS         = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY     = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER                = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE               = 7049, -- Tallying conquest results...
         FISHING_MESSAGE_OFFSET      = 7208, -- You can't fish here.
         CAVE_HAS_BEEN_SEALED_OFF    = 7352, -- The cave has been sealed off by some sort of barrier.
@@ -28,6 +31,8 @@ zones[tpz.zone.DAVOI] =
         AN_ORCISH_STORAGE_HOLE      = 7450, -- An Orcish storage hole. There is something inside, but you cannot open it without a key.
         A_WELL                      = 7452, -- A well, presumably dug by Orcs.
         CHEST_UNLOCKED              = 7471, -- You unlock the chest!
+        NOTHING_TO_DO               = 7921, -- You have nothing left to do here.
+        UNDER_ATTACK                = 7923, -- You are under attack!
         COMMON_SENSE_SURVIVAL       = 7972, -- It appears that you have arrived at a new survival guide provided by the Adventurers' Mutual Aid Network. Common sense dictates that you should now be able to teleport here from similar tomes throughout the world.
     },
     mob =
@@ -69,6 +74,7 @@ zones[tpz.zone.DAVOI] =
         PURPLEFLASH_BRUKDOK = 17387969,
         ONE_EYED_GWAJBOJ    = 17387970,
         THREE_EYED_PROZPUZ  = 17387971,
+        HEMATIC_CYST        = 17387972,
     },
     npc =
     {

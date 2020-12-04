@@ -14,7 +14,16 @@ zones[tpz.zone.TAVNAZIAN_SAFEHOLD] =
         ITEM_OBTAINED                  = 6388, -- Obtained: <item>.
         GIL_OBTAINED                   = 6389, -- Obtained <number> gil.
         KEYITEM_OBTAINED               = 6391, -- Obtained key item: <keyitem>.
+        CARRIED_OVER_POINTS            = 6427, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY        = 6428, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER                   = 6429, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE                  = 6536, -- Tallying conquest results...
+        REGIME_CANCELED                = 6702, -- Current training regime canceled.
+        HUNT_ACCEPTED                  = 6720, -- Hunt accepted!
+        USE_SCYLDS                     = 6721, -- You use <number> [scyld/scylds]. Scyld balance: <number>.
+        HUNT_RECORDED                  = 6732, -- You record your hunt.
+        OBTAIN_SCYLDS                  = 6734, -- You obtain <number> [scyld/scylds]! Current balance: <number> [scyld/scylds].
+        HUNT_CANCELED                  = 6738, -- Hunt canceled.
         FISHING_MESSAGE_OFFSET         = 10257, -- You can't fish here.
         NOMAD_MOOGLE_DIALOG            = 10889, -- I'm a traveling moogle, kupo. I help adventurers in the Outlands access items they have stored in a Mog House elsewhere, kupo.
         NILEROUCHE_SHOP_DIALOG         = 10897, -- Hello, traveler! Please have a look at these fine Tavnazian-built products!
@@ -37,6 +46,7 @@ zones[tpz.zone.TAVNAZIAN_SAFEHOLD] =
     },
     npc =
     {
+        QM_IN_SEARCH_OF_TRUTH_BASE = 16883860,
     },
 }
 

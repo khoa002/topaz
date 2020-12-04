@@ -17,6 +17,9 @@ zones[tpz.zone.MERIPHATAUD_MOUNTAINS] =
         KEYITEM_OBTAINED         = 6413,  -- Obtained key item: <keyitem>.
         KEYITEM_LOST             = 6414,  -- Lost key item: <keyitem>.
         FELLOW_MESSAGE_OFFSET    = 6439,  -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS      = 7021, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY  = 7022, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER             = 7023, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE            = 7071,  -- Tallying conquest results...
         BEASTMEN_BANNER          = 7152,  -- There is a beastmen's banner.
         FISHING_MESSAGE_OFFSET   = 7230,  -- You can't fish here.
@@ -42,9 +45,9 @@ zones[tpz.zone.MERIPHATAUD_MOUNTAINS] =
         },
         PATRIPATAN_PH       =
         {
-            [17264967] = 17264972, -- 551.767,-32.570,590.205
-            [17264968] = 17264972, -- 646.199,-24.483,644.477
-            [17264969] = 17264972, -- 535.318,-32.179,602.055
+            [17264967] = 17264972, -- 551.767, -32.570, 590.205
+            [17264968] = 17264972, -- 646.199, -24.483, 644.477
+            [17264969] = 17264972, -- 535.318, -32.179, 602.055
         },
         DAGGERCLAW_DRACOS_PH =
         {

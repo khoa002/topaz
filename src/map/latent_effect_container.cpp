@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
 Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -360,6 +360,7 @@ void CLatentEffectContainer::CheckLatentsDay()
 ************************************************************************/
 void CLatentEffectContainer::CheckLatentsMoonPhase()
 {
+    TracyZoneScoped;
     ProcessLatentEffects([this](CLatentEffect& latentEffect)
     {
         switch (latentEffect.GetConditionsID())
@@ -411,6 +412,7 @@ void CLatentEffectContainer::CheckLatentsWeekDay()
 ************************************************************************/
 void CLatentEffectContainer::CheckLatentsHours()
 {
+    TracyZoneScoped;
     ProcessLatentEffects([this](CLatentEffect& latentEffect)
     {
         switch (latentEffect.GetConditionsID())
@@ -530,13 +532,8 @@ void CLatentEffectContainer::CheckLatentsJobLevel()
     {
         switch (latentEffect.GetConditionsID())
         {
-        case LATENT_JOB_LEVEL_EVEN:
-        case LATENT_JOB_LEVEL_ODD:
-        case LATENT_JOB_MULTIPLE_5:
-        case LATENT_JOB_MULTIPLE_10:
-        case LATENT_JOB_MULTIPLE_13_NIGHT:
-        case LATENT_JOB_LEVEL_BELOW:
-        case LATENT_JOB_LEVEL_ABOVE:
+        case LATENT_JOB_MULTIPLE:
+        case LATENT_JOB_MULTIPLE_AT_NIGHT:
             return ProcessLatentEffect(latentEffect);
             break;
         default:
@@ -655,6 +652,7 @@ void CLatentEffectContainer::CheckLatentsTargetChange()
         {
         case LATENT_SIGNET_BONUS:
         case LATENT_VS_ECOSYSTEM:
+        case LATENT_VS_FAMILY:
             return ProcessLatentEffect(latentEffect);
         default:
             break;
@@ -688,6 +686,7 @@ void CLatentEffectContainer::ProcessLatentEffects(std::function <bool(CLatentEff
 // activation/deactivation and attempts to apply
 bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
 {
+    TracyZoneScoped;
     // Our default case un-finds our latent prevent us from toggling a latent we don't have programmed
     auto expression = false;
     auto latentFound = true;
@@ -951,20 +950,29 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
         }
         break;
     }
-    case LATENT_JOB_MULTIPLE_5:
-        expression = m_POwner->GetMLevel() % 5 == 0;
+    case LATENT_JOB_MULTIPLE:
+        // Check if level is odd
+        if (latentEffect.GetConditionsValue() == 0)
+        {
+            expression = m_POwner->GetMLevel() % 2 == 1;
+        }
+        // Check if level is multiple of divisor
+        else
+        {
+            expression = m_POwner->GetMLevel() % latentEffect.GetConditionsValue() == 0;
+        }
         break;
-    case LATENT_JOB_MULTIPLE_10:
-        expression = m_POwner->GetMLevel() % 10 == 0;
-        break;
-    case LATENT_JOB_MULTIPLE_13_NIGHT:
-        expression = m_POwner->GetMLevel() % 13 == 0 && CVanaTime::getInstance()->SyncTime() == TIME_NIGHT;
-        break;
-    case LATENT_JOB_LEVEL_ODD:
-        expression = m_POwner->GetMLevel() % 2 == 1;
-        break;
-    case LATENT_JOB_LEVEL_EVEN:
-        expression = m_POwner->GetMLevel() % 2 == 0;
+    case LATENT_JOB_MULTIPLE_AT_NIGHT:
+        if (latentEffect.GetConditionsValue() == 0)
+        {
+            expression = m_POwner->GetMLevel() % 2 == 1 &&
+                CVanaTime::getInstance()->SyncTime() == TIME_NIGHT;
+        }
+        else
+        {
+            expression = m_POwner->GetMLevel() % latentEffect.GetConditionsValue() == 0 &&
+                CVanaTime::getInstance()->SyncTime() == TIME_NIGHT;
+        }
         break;
     case LATENT_WEAPON_DRAWN_HP_UNDER:
         expression = m_POwner->health.hp < latentEffect.GetConditionsValue() && m_POwner->animation == ANIMATION_ATTACK;
@@ -1120,6 +1128,16 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
         if (CBattleEntity* PTarget = m_POwner->GetBattleTarget())
         {
             expression = PTarget->m_EcoSystem == latentEffect.GetConditionsValue();
+        }
+        break;
+    case LATENT_VS_FAMILY:
+        if (CBattleEntity* PTarget = m_POwner->GetBattleTarget())
+        {
+            CMobEntity* PMob = dynamic_cast<CMobEntity*>(PTarget);
+            if (PMob)
+            {
+                expression = PMob->m_Family == latentEffect.GetConditionsValue();
+            }
         }
         break;
     default:

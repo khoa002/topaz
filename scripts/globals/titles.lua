@@ -1051,6 +1051,8 @@ tpz.title =
     LEGENDARY_ALCHEMIST                       = 1126,
     LEGENDARY_CULINARIAN                      = 1127,
     ETERNAL_COMMUNER                          = 1128,
+    DESTINY_DESTROYER_DESTROYER               = 1129,
+    FULLY_BAKED_HERO                          = 1130,
 }
 
 -----------------------------------

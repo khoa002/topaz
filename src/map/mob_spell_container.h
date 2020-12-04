@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -45,6 +45,7 @@ public:
   std::optional<SpellID> GetDebuffSpell();
   std::optional<SpellID> GetHealSpell(); // cures, regen, armys paeon
   std::optional<SpellID> GetNaSpell(); // silena, blindna etc
+  std::optional<SpellID> GetSevereSpell(); // select spells like death, impact, meteor
   std::optional<SpellID> GetSpell(); // return a random spell
 
   bool HasSpells() const;
@@ -56,11 +57,13 @@ public:
   bool HasHealSpells() const;
   bool HasNaSpells() const;
   bool HasDebuffSpells() const;
+  bool HasSevereSpells() const;
 
   void ClearSpells();
   void AddSpell(SpellID spellId);
   void RemoveSpell(SpellID spellId);
 
+  std::optional<SpellID> GetAvailable(SpellID spellId);
   std::optional<SpellID> GetBestAvailable(SPELLFAMILY family);
 
   std::vector<SpellID> m_gaList;
@@ -69,6 +72,7 @@ public:
   std::vector<SpellID> m_debuffList;
   std::vector<SpellID> m_healList;
   std::vector<SpellID> m_naList;
+  std::vector<SpellID> m_severeList;
 
 private:
   CMobEntity* m_PMob;

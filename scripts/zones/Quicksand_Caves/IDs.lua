@@ -18,6 +18,9 @@ zones[tpz.zone.QUICKSAND_CAVES] =
         SENSE_OF_FOREBODING       = 6403, -- You are suddenly overcome with a sense of foreboding...
         NOW_IS_NOT_THE_TIME       = 6404, -- Now is not the time for that!
         FELLOW_MESSAGE_OFFSET     = 6417, -- I'm ready. I suppose.
+        CARRIED_OVER_POINTS       = 6999, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY   = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
+        LOGIN_NUMBER              = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         CONQUEST_BASE             = 7049, -- Tallying conquest results...
         FISHING_MESSAGE_OFFSET    = 7208, -- You can't fish here.
         CHEST_UNLOCKED            = 7316, -- You unlock the chest!
@@ -55,7 +58,7 @@ zones[tpz.zone.QUICKSAND_CAVES] =
         },
         ANTICAN_PRAEFECTUS_PH =
         {
-            [17629409] = 17629412, -- -90.01 -0.567 -29.424
+            [17629280] = 17629281, -- -90.01 -0.567 -29.424
         },
         ANTICAN_PROCONSUL_PH  =
         {

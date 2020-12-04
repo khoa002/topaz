@@ -1,9 +1,16 @@
 -----------------------------------------
 -- Trust: Naji
 -----------------------------------------
+require("scripts/globals/ability")
+require("scripts/globals/gambits")
+require("scripts/globals/magic")
+require("scripts/globals/status")
 require("scripts/globals/trust")
+require("scripts/globals/weaponskillids")
 require("scripts/globals/zone")
 -----------------------------------------
+
+local message_page_offset = 1
 
 function onMagicCastingCheck(caster, target, spell)
     return tpz.trust.canCast(caster, spell)
@@ -21,32 +28,18 @@ function onSpellCast(caster, target, spell)
 end
 
 function onMobSpawn(mob)
-    mob:addListener("ENMITY_CHANGED", "NAJI_ENMITY_CHANGED", function(trust, master, target)
-        if trust:getID() ~= target:getID() then
-            trust:setLocalVar("tryProvoke", 1)
-        end
-    end)
+    tpz.trust.teamworkMessage(mob, message_page_offset, {
+        [tpz.magic.spell.AYAME] = tpz.trust.message_offset.TEAMWORK_1,
+    })
 
-    mob:addListener("COMBAT_TICK", "NAJI_COMBAT_TICK", function(trust, master, target)
-        local tryProvoke = trust:getLocalVar("tryProvoke")
-        local provokeReadyTime = trust:getLocalVar("provokeReadyTime")
-
-        if tryProvoke == 1 and os.time() >= provokeReadyTime then
-            trust:useJobAbility(19, target)
-            trust:setLocalVar("tryProvoke", 0)
-            trust:setLocalVar("provokeReadyTime", os.time() + 30)
-        end
-
-        if trust:getTP() >= 1000 then
-            local weaponSkills = {33, 34, 40}
-            local ws = weaponSkills[math.random(1, #weaponSkills)]
-            trust:useMobAbility(ws, target)
-        end
-    end)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_HAS_TOP_ENMITY, 0,
+                        ai.r.JA, ai.s.SPECIFIC, tpz.ja.PROVOKE)
 end
 
 function onMobDespawn(mob)
+    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DESPAWN)
 end
 
 function onMobDeath(mob)
+    tpz.trust.message(mob, message_page_offset, tpz.trust.message_offset.DEATH)
 end
